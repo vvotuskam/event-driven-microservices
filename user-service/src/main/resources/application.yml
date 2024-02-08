@@ -6,7 +6,7 @@ spring:
           issuer-uri: http://localhost:8762/realms/demo
 
 keycloak:
-  url: http://188.166.186.82:8762
+  url: http://localhost:8762
   admin:
     username: admin
     password: admin
