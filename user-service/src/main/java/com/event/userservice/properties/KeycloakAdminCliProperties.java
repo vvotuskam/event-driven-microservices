@@ -13,9 +13,8 @@ public class KeycloakAdminCliProperties {
     private String password;
     private String grantType;
     private String clientId;
-    private String clientSecret;
 
     public KeycloakTokenRequest getRequest() {
-        return new KeycloakTokenRequest(username, password, grantType, clientId, clientSecret);
+        return new KeycloakTokenRequest(username, password, grantType, clientId);
     }
 }

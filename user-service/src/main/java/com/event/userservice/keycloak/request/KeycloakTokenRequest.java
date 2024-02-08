@@ -25,7 +25,4 @@ public class KeycloakTokenRequest {
 
     @FormProperty("client_id")
     private String clientId;
-
-    @FormProperty("client_secret")
-    private String clientSecret;
 }
