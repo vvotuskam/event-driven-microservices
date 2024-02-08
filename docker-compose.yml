@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:22.0.0
+    command: [ start-dev, --http-port=8762, --import-realm, ]
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_FEATURES: preview
+    networks:
+      - localhost
+    ports:
+      - '8762:8762'
+      - '8787:8787'
