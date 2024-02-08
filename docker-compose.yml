@@ -9,8 +9,8 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_FEATURES: preview
-    networks:
-      - localhost
     ports:
       - '8762:8762'
       - '8787:8787'
+    volumes:
+      - ./import/realm-export.json:/opt/keycloak/data/import/realm.json

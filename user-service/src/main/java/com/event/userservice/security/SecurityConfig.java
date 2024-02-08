@@ -26,12 +26,8 @@ public class SecurityConfig {
             ObjectMapper objectMapper
     ) throws Exception {
         http
-                .authorizeHttpRequests(requests -> {
-                    requests.anyRequest().authenticated();
-                })
-                .oauth2ResourceServer(oauth2 -> {
-                    oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtConverter));
-                })
+                .authorizeHttpRequests(requests -> requests.anyRequest().authenticated())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtConverter)))
                 .exceptionHandling(exceptions -> {
                     exceptions.authenticationEntryPoint((request, response, authException) -> {
                         Map<String, String> unauthorized = Map.of("status", "unauthorized");
