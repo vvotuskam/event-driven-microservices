@@ -1,1 +1,1 @@
-user.management.UserCreationEventListenerFactory
+user.management.eventlisteners.UserCreationEventListenerFactory

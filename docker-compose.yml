@@ -14,3 +14,4 @@ services:
       - '8787:8787'
     volumes:
       - ./import/realm-export.json:/opt/keycloak/data/import/realm.json
+      - ./user-management-event-listeners/target/user-management-event-listeners.jar:/opt/keycloak/providers/user-management-event-listeners.jar

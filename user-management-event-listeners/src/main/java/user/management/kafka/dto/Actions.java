@@ -1,4 +1,4 @@
-package user.management.kafka;
+package user.management.kafka.dto;
 
 public enum Actions {
     CREATED,
