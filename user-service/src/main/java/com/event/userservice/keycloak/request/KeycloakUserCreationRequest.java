@@ -1,5 +1,6 @@
 package com.event.userservice.keycloak.request;
 
+import com.event.userservice.controller.request.UserCreationRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,14 +20,14 @@ public class KeycloakUserCreationRequest {
     private String[] requiredActions;
     private KeycloakCredentials[] credentials;
 
-    public KeycloakUserCreationRequest(String firstName, String lastName, String email, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
+    public KeycloakUserCreationRequest(UserCreationRequest request) {
+        this.firstName = request.getFirstname();
+        this.lastName = request.getLastname();
+        this.email = request.getEmail();
         this.username = email;
         this.emailVerified = true;
         this.enabled = true;
         this.requiredActions = new String[0];
-        this.credentials = new KeycloakCredentials[]{new KeycloakCredentials(password)};
+        this.credentials = new KeycloakCredentials[]{new KeycloakCredentials(request.getPassword())};
     }
 }
