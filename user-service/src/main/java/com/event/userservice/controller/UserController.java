@@ -25,6 +25,11 @@ public class UserController {
         return ResponseEntity.ok(userService.getUsers());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable String id) {
+        return ResponseEntity.ok(userService.getById(id));
+    }
+
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UserCreationRequest request) {
         userService.createUser(new KeycloakUserCreationRequest(request));

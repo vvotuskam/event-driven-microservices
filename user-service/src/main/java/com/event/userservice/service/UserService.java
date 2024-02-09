@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface UserService {
 
+    KeycloakUserResponse getById(String id);
+
     List<KeycloakUserResponse> getUsers();
 
     void createUser(KeycloakUserCreationRequest request);

@@ -50,12 +50,23 @@ services:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
 
-  kafka-manager:
-    image: hlebalbau/kafka-manager
-    container_name: kafka-manager
+  redis:
+    image: redis
+    restart: always
     ports:
-      - "9000:9000"
+      - "6379:6379"
     environment:
-      ZK_HOSTS: "zookeeper:2181"
-    depends_on:
-      - kafka
+      REDIS_PASSWORD: password
+      REDIS_PORT: 6379
+      REDIS_DATABASES: 16
+
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    build: .
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
