@@ -6,7 +6,9 @@ import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventListenerProviderFactory;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.KeycloakSessionFactory;
-import user.management.kafka.service.DemoKafkaService;
+import user.management.properties.DefaultKafkaProperties;
+import user.management.service.DefaultKafkaService;
+import user.management.service.KafkaService;
 
 public class UserCreationEventListenerFactory implements EventListenerProviderFactory {
 
@@ -14,7 +16,8 @@ public class UserCreationEventListenerFactory implements EventListenerProviderFa
 
     @Override
     public EventListenerProvider create(KeycloakSession session) {
-        return new UserCreationEventListener(session, new DemoKafkaService(), new ObjectMapper());
+        KafkaService kafkaService = new DefaultKafkaService(new DefaultKafkaProperties());
+        return new UserCreationEventListener(session, kafkaService, new ObjectMapper());
     }
 
     @Override

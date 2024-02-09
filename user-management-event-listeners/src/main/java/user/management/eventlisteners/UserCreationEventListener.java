@@ -11,11 +11,11 @@ import org.keycloak.events.admin.OperationType;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
+import user.management.dto.Actions;
+import user.management.dto.UserPayload;
 import user.management.dto.UserRepresentation;
-import user.management.kafka.dto.Actions;
-import user.management.kafka.service.KafkaService;
-import user.management.kafka.dto.UserPayload;
 import user.management.properties.RealmProperties;
+import user.management.service.KafkaService;
 
 import java.util.Map;
 import java.util.Optional;
@@ -42,6 +42,8 @@ public class UserCreationEventListener implements EventListenerProvider {
 
         UserModel registeredUser = keycloakSession.users().getUserById(realm, event.getUserId());
 
+        log.info("User registration event for user {}", registeredUser.getEmail());
+
         UserPayload payload = UserPayload.builder()
                 .id(registeredUser.getId())
                 .email(registeredUser.getEmail())
@@ -50,7 +52,7 @@ public class UserCreationEventListener implements EventListenerProvider {
                 .action(Actions.CREATED)
                 .build();
 
-        kafkaService.publish(Actions.CREATED, payload);
+        kafkaService.publish(payload);
     }
 
     @Override
@@ -79,11 +81,10 @@ public class UserCreationEventListener implements EventListenerProvider {
                     .action(Actions.CREATED)
                     .build();
 
-            kafkaService.publish(Actions.CREATED, payload);
+            kafkaService.publish(payload);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override

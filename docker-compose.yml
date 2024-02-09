@@ -14,4 +14,48 @@ services:
       - '8787:8787'
     volumes:
       - ./import/realm-export.json:/opt/keycloak/data/import/realm.json
+      - ./import/kafka-clients-3.6.1.jar:/opt/keycloak/providers/kafka-clients-3.6.1.jar
       - ./user-management-event-listeners/target/user-management-event-listeners.jar:/opt/keycloak/providers/user-management-event-listeners.jar
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - '2181:2181'
+
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - '9092:9092'
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+
+  kafka-manager:
+    image: hlebalbau/kafka-manager
+    container_name: kafka-manager
+    ports:
+      - "9000:9000"
+    environment:
+      ZK_HOSTS: "zookeeper:2181"
+    depends_on:
+      - kafka
