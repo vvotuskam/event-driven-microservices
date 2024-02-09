@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import user.management.dto.KafkaPayload;
 import user.management.dto.UserPayload;
 import user.management.properties.DefaultKafkaProperties;
 
@@ -18,7 +19,7 @@ public class DefaultKafkaService implements KafkaService {
 
     @Override
     @SneakyThrows
-    public void publish(UserPayload payload) {
+    public void publish(KafkaPayload payload) {
         ObjectMapper mapper = new ObjectMapper();
         log.info("Sending message to kafka with payload{{}}", payload);
 

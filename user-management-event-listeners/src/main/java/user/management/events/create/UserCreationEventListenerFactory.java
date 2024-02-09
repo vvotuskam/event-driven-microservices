@@ -1,4 +1,4 @@
-package user.management.eventlisteners;
+package user.management.events.create;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.keycloak.Config;

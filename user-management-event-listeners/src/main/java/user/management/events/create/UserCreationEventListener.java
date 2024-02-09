@@ -1,4 +1,4 @@
-package user.management.eventlisteners;
+package user.management.events.create;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +11,8 @@ import org.keycloak.events.admin.OperationType;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
-import user.management.dto.Actions;
+import user.management.dto.ActionEnum;
+import user.management.dto.KafkaPayload;
 import user.management.dto.UserPayload;
 import user.management.dto.UserRepresentation;
 import user.management.properties.RealmProperties;
@@ -44,12 +45,16 @@ public class UserCreationEventListener implements EventListenerProvider {
 
         log.info("User registration event for user {}", registeredUser.getEmail());
 
-        UserPayload payload = UserPayload.builder()
+        UserPayload userPayload = UserPayload.builder()
                 .id(registeredUser.getId())
                 .email(registeredUser.getEmail())
                 .firstname(registeredUser.getFirstName())
                 .lastname(registeredUser.getLastName())
-                .action(Actions.CREATED)
+                .build();
+
+        KafkaPayload payload = KafkaPayload.builder()
+                .action(ActionEnum.CREATED)
+                .payload(userPayload)
                 .build();
 
         kafkaService.publish(payload);
@@ -78,7 +83,7 @@ public class UserCreationEventListener implements EventListenerProvider {
                     .email(user.getEmail())
                     .firstname(user.getFirstName())
                     .lastname(user.getLastName())
-                    .action(Actions.CREATED)
+                    .action(ActionEnum.CREATED)
                     .build();
 
             kafkaService.publish(payload);

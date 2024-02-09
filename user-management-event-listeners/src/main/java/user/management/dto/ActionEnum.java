@@ -1,6 +1,6 @@
 package user.management.dto;
 
-public enum Actions {
+public enum ActionEnum {
     CREATED,
     DELETED
 }
